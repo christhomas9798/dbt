@@ -1,9 +1,49 @@
 version: 2
 models:
-  - name: bronze_date #  Must match the filename of a model -- including case sensitivity.
-
+  - name: bronze_date # Must match the filename of a model -- including case sensitivity.
     config:
       materialized: table
+
   - name: bronze_sales
     config:
-      materialized: view
+      materialized: table
+    columns: # <--- Moved out of config, parallel to name and config
+      - name: sales_id
+        description: "The unique identifier for each order."
+        data_tests:
+          - not_null
+          - unique
+
+  - name: bronze_store
+    config:
+      materialized: table
+    columns: # <--- Moved out of config, parallel to name and config
+      - name: store_sk
+        description: "The unique identifier for each store."
+        data_tests:
+          - not_null
+          - unique
+      - name: store_name
+        description: "The name of the store."
+        data_tests:
+          - accepted_values:
+              values: ['MegaMart Austin', 'MegaMart Brooklyn', 'MegaMart Toronto','MegaMart Manhattan','MegaMart San Jose','MegaMart Chicago','MegaMart Miami','MegaMart Dallas','MegaMart Denver','MegaMart Seattle']
+              config:
+                severity: warn # This changes the behavior from fail to warning
+      - name: country
+        description: "The country where the store is located."
+        data_tests:
+          - accepted_values:
+              values: ['USA', 'Canada']
+              config:
+                severity: warn # This changes the behavior from fail to warning
+  - name: bronze_returns
+    config:
+      materialized: table
+    columns: # <--- Moved out of config, parallel to name and config
+      - name: refund_amount
+        description: "The amount refunded to the customer for a return."
+        data_tests:
+          - generic_even:
+              config:
+                severity: warn # This changes the behavior from fail to warning
