@@ -38,3 +38,11 @@ models:
     silver:
       +materialized: table
       schema: silver
+
+seeds:
+  chris_dbt_project:
+    +schema: bronze
+    +quoting:
+      database: false
+      schema: false
+      identifier: false
