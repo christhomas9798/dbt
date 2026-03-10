@@ -1,0 +1,7 @@
+with dedup as (
+    select
+        *,
+        row_number() over (partition by id order by updateDate desc) as rn
+    from {{ source('source', 'items') }}
+)
+select id,name,category,updateDate from dedup where rn=1 
