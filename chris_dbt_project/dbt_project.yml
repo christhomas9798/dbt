@@ -38,6 +38,9 @@ models:
     silver:
       +materialized: table
       schema: silver
+    source:
+      +materialized: table
+      schema: source
 
 seeds:
   chris_dbt_project:

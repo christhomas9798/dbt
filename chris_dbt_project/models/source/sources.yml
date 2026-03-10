@@ -9,3 +9,4 @@ sources:
       - name: dim_product
       - name: dim_customer
       - name: fact_returns
+      - name: items
