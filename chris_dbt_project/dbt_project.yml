@@ -41,6 +41,9 @@ models:
     source:
       +materialized: table
       schema: source
+    gold:
+      +materialized: view
+      schema: gold
 
 seeds:
   chris_dbt_project:
